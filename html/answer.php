@@ -25,15 +25,14 @@ $explanation = $formattedData['explanation'];
 
 $result = $selectedAnswer === $correctAnswer;
 
-echo $result;
-var_dump($result);
-echo $correctAnswer;
-echo $correctAnswerValue;
-echo $explanation;
+$response = [
+    'result' => $result,
+    'correctAnswer' => $correctAnswer,
+    'correctAnswerValue' => $correctAnswerValue,
+    'explanation' => $explanation,
+];
 
-
-
-
+echo json_encode($response);
 
 
 

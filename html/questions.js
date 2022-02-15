@@ -30,14 +30,44 @@ function checkClickedAnswer(event) {
     //正しい答え(A,B,C,D)
     const correctAnswer = correctAnswers[questionId];
 
+    //フォームのデータの入れ物を作る
+    const formData = new FormData();
 
-    //メッセージを入れる変数を用意
+    //送信したい値を追加
+    formData.append('id', questionId);
+    formData.append('selectedAnswer',selectedAnswer);
+
+    //答えが正しいかを判定
+    const result = selectedAnswer === correctAnswer;
+
+    // xhr = XMLHttpRequestの頭文字です
+    const xhr = new XMLHttpRequest();
+
+    // HTTPメソッドをPOSTに指定、送信するURLを指定
+    xhr.open('POST', 'answer.php');
+
+    // フォームデータを送信
+    xhr.send(formData);
+
+
+
+
+    displayResult(result);
+}
+
+//document.querySelectorAll('ol#answers li').forEach(li => li.addEventListener('click', function(){
+//    alert('clicked');
+//}))
+
+
+function displayResult(result) {
+        //メッセージを入れる変数を用意
     let message;
     //カラーコードを入れる変数を用意
     let answerColorCode;
 
     //答えが正しいか判定
-    if (selectedAnswer === correctAnswer) {
+    if (result) {
         //正しい答えのとき
         message = 'あってるよ';
         answerColorCode = 'green';
@@ -51,8 +81,5 @@ function checkClickedAnswer(event) {
     document.querySelector('span#correct-answer').style.color = answerColorCode;
     //答え全体を表示
     document.querySelector('div.section2').style.display = 'block';
-}
 
-//document.querySelectorAll('ol#answers li').forEach(li => li.addEventListener('click', function(){
-//    alert('clicked');
-//}))
+}

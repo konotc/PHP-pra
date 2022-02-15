@@ -2,13 +2,6 @@ const answersList = document.querySelectorAll('ol#answers li');
 //これ一回answersって名前つけてるのにまたanswersListって名前つけないといけないの？
 answersList.forEach(li => li.addEventListener('click', checkClickedAnswer));
 
-//正しい答え
-const correctAnswers = {
-    1: 'C',
-    2: 'A',
-    3: 'D',
-    4: 'B',
-};
 
 function checkClickedAnswer(event) {
     //イベント発生時の詳細な情報を取得することができる
@@ -27,8 +20,6 @@ function checkClickedAnswer(event) {
     //closest：親の要素を取得することができるメソッド。
     //このJSフォルダを引っ張ってきているそれぞれのファイルでdate-idを探してきている
     //親から('ol#answers').dataset.idはなにかを探してきている
-    //正しい答え(A,B,C,D)
-    const correctAnswer = correctAnswers[questionId];
 
     //フォームのデータの入れ物を作る
     const formData = new FormData();
@@ -37,8 +28,6 @@ function checkClickedAnswer(event) {
     formData.append('id', questionId);
     formData.append('selectedAnswer',selectedAnswer);
 
-    //答えが正しいかを判定
-    const result = selectedAnswer === correctAnswer;
 
     // xhr = XMLHttpRequestの頭文字です
     const xhr = new XMLHttpRequest();
@@ -49,10 +38,33 @@ function checkClickedAnswer(event) {
     // フォームデータを送信
     xhr.send(formData);
 
+    // loadendはリクエストが完了したときにイベントが発生する
+    xhr.addEventListener('loadend', function(event) {
+        /** @type  {XMLHttpRequest}*/
+        const xhr = event.currentTarget;
+
+
+        //リクエストが成功したかステータスコードで確認
+        if (xhr.status ===200) {
+            const response = JSON.parse(xhr.response);
+
+            //答えが正しいかを判定
+            const result = response.result;
+            const correctAnswer = response.correctAnswer;
+            const correctAnswerValue = response.correctAnswerValue;
+            const explanation = response.explanation;
+
+            //画面表示
+            displayResult(result, correctAnswer, correctAnswerValue, explanation);
+
+        } else {
+            //エラー
+            alert('Error:回答データの取得に失敗しました');
+        }
+    });
 
 
 
-    displayResult(result);
 }
 
 //document.querySelectorAll('ol#answers li').forEach(li => li.addEventListener('click', function(){
@@ -60,7 +72,7 @@ function checkClickedAnswer(event) {
 //}))
 
 
-function displayResult(result) {
+function displayResult(result, correctAnswer, correctAnswerValue, explanation) {
         //メッセージを入れる変数を用意
     let message;
     //カラーコードを入れる変数を用意
@@ -78,6 +90,11 @@ function displayResult(result) {
     }
     //色を変更
     alert(message);
+
+    //正解の内容をHTMLに組み込む
+    document.querySelector('span#correct-answer').innerHTML = correctAnswer + '.  ' + correctAnswerValue;
+    document.querySelector('span#explanation').innerHTML = explanation;
+    //間違っていたときだけ色を変更
     document.querySelector('span#correct-answer').style.color = answerColorCode;
     //答え全体を表示
     document.querySelector('div.section2').style.display = 'block';

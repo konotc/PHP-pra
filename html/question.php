@@ -2,7 +2,7 @@
 
 require __DIR__.'/../lib/functions.php';
 
-$id = escape($_GET['id'] ?? '1');
+$id = escape($_GET['id'] ?? '');
 
 $data = fetchById($id);
 

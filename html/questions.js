@@ -45,7 +45,7 @@ function checkClickedAnswer(event) {
 
 
         //リクエストが成功したかステータスコードで確認
-        if (xhr.status ===200) {
+        if (xhr.status === 200) {
             const response = JSON.parse(xhr.response);
 
             //答えが正しいかを判定

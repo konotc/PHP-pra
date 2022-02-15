@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="questions.js" defer></script>
-    <title>問題<?php echo $id; ?> | Quiz</title>
+    <title>問題 | Quiz</title>
 </head>
 <body>
     <h1>Quiz</h1>

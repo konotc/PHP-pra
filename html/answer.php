@@ -39,6 +39,8 @@ $response = [
     'explanation' => $explanation,
 ];
 
+// レスポンスの種類を指定する
+header('Content-Type: application/json; charset=UTF-8');
 echo json_encode($response);
 
 

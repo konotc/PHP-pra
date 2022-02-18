@@ -33,7 +33,7 @@
         </div>
 
         <div class ="section3">
-            <p><a href="index.html">戻る</a></p>
+            <p><a href="index.php">戻る</a></p>
         </div>
     </div>
 </body>
